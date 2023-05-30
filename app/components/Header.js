@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,15 +7,18 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import Form from './Form';
 
 export default function Header() {
+  const [modalVisible, setModalVisible] = useState(true);
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
           <AntIcon name="pluscircleo" size={40} color={'white'} />
         </TouchableOpacity>
       </View>
+      {modalVisible && <Form />}
     </SafeAreaView>
   );
 }
