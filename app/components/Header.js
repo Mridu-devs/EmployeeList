@@ -5,23 +5,42 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import Form from './Form';
 
 export default function Header() {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
           <AntIcon name="pluscircleo" size={40} color={'white'} />
         </TouchableOpacity>
       </View>
-      {modalVisible && <Form />}
+
+      <Modal visible={modalVisible} animationType="slide" transparent={false}>
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.modalContainer}>
+            <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
+              <View style={styles.modalContent}>
+                <Form />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(8, 86, 58, 0.876)',
@@ -31,5 +50,19 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     borderBottomEndRadius: 25,
     borderBottomStartRadius: 25,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    // backgroundColor: 'aqua',
+  },
+  modalContent: {
+    // backgroundColor: 'red',
+    padding: 20,
+    borderRadius: 10,
+    width: '100%',
+    maxHeight: '100%',
   },
 });
