@@ -11,7 +11,7 @@ import {
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import Form from './Form';
 
-export default function Header() {
+export default function Header({data, setData}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const closeModal = () => {
@@ -31,7 +31,11 @@ export default function Header() {
           <View style={styles.modalContainer}>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
               <View style={styles.modalContent}>
-                <Form />
+                <Form
+                  data={data}
+                  setData={setData}
+                  setModalVisible={setModalVisible}
+                />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -56,10 +60,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    // backgroundColor: 'aqua',
   },
   modalContent: {
-    // backgroundColor: 'red',
     padding: 20,
     borderRadius: 10,
     width: '100%',
