@@ -65,18 +65,36 @@ function UserInfoCard() {
     return (
       <SafeAreaView>
         <View style={styles.card}>
-          <View>
-            <View style={styles.detailsContainer}>
+          <View style={styles.detailsContainer}>
+            <View style={{flexDirection: 'row'}}>
               <View style={{width: '50%'}}>
                 <Text style={styles.cardText}>Name</Text>
-                <Text style={styles.cardText}>Email</Text>
-                <Text style={styles.cardText}>Mobile No.</Text>
-                <Text style={styles.cardText}>Department</Text>
               </View>
               <View style={{width: '50%'}}>
                 <Text style={styles.valuesText}>{item.name}</Text>
+              </View>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: '50%'}}>
+                <Text style={styles.cardText}>Email</Text>
+              </View>
+              <View style={{width: '50%'}}>
                 <Text style={styles.valuesText}>{item.email}</Text>
+              </View>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: '50%'}}>
+                <Text style={styles.cardText}>Mobile No.</Text>
+              </View>
+              <View style={{width: '50%'}}>
                 <Text style={styles.valuesText}>{item.mobileNo}</Text>
+              </View>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: '50%'}}>
+                <Text style={styles.cardText}>Department</Text>
+              </View>
+              <View style={{width: '50%'}}>
                 <Text style={styles.valuesText}>{item.department}</Text>
               </View>
             </View>
@@ -137,7 +155,6 @@ function UserInfoCard() {
 const styles = StyleSheet.create({
   container: {alignItems: 'center', marginTop: 20, marginBottom: 150},
   card: {
-    // backgroundColor: 'rgb(145, 143, 143)',
     backgroundColor: 'rgb(213, 217, 218)',
     padding: 20,
     borderRadius: 10,
@@ -145,8 +162,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   detailsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   cardText: {
     fontSize: 16,
