@@ -1,45 +1,50 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   TextInput,
   Text,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {addUserToRecords} from '../redux/Actions';
 
-function Form({data, setData, setModalVisible}) {
-  let nameRef = useRef();
+function Form({setModalVisible}) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNo, setMobileNo] = useState('');
   const [department, setDepartment] = useState('');
 
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const [departmentError, setDepartmentError] = useState('');
+  const [nameError, setNameError] = useState('  ');
+  const [emailError, setEmailError] = useState('  ');
+  const [mobileNoError, setMobileNoError] = useState('  ');
+  const [departmentError, setDepartmentError] = useState('  ');
 
   const dispatch = useDispatch();
 
   const onSubmit = () => {
     const value = {name, email, mobileNo, department};
-    // nameValidating();
-    // emailValidating();
-    // phoneValidating();
-    departmenntValidating();
-
-    // setData([...data, value]);
-    // setModalVisible(false);
-    // dispatch(addUserToRecords(value));
+    if (
+      nameError === '' &&
+      emailError === '' &&
+      departmentError === '' &&
+      mobileNoError === ''
+    ) {
+      Alert.alert('Submitted successfully');
+      console.log('valuess', value);
+      setModalVisible(false);
+      dispatch(addUserToRecords(value));
+    }
+    validation();
   };
 
-  //--------------------Name validation--------------------///////////////
-
-  function nameValidating() {
+  function validation() {
     setNameError('');
-    // const currentName = nameRef.current.value;
+    setEmailError('');
+    setMobileNoError('');
+    setDepartmentError('');
+    //--------------------Name validation--------------------///////////////
     if (name === '') {
       setNameError('*Cannot be blank');
     } else if (!name.match(/^[A-Z]/)) {
@@ -53,25 +58,10 @@ function Form({data, setData, setModalVisible}) {
     } else if (name.endsWith(' ')) {
       setNameError('*Last character cannot be blank');
     }
-  }
-
-  //--------------------Email validation--------------------///////////////
-
-  // if (email.endsWith(" ")) {
-  //   setError({ emailError: "*Last character cannot be blank" });
-  //   setReturnVal(false);
-  // }
-
-  function emailValidating() {
-    setEmailError('');
+    //--------------------Email validation--------------------///////////////
     if (email === '') {
       setEmailError('*Email cannot be blank');
-    }
-    // else if (email.startsWith(" ")) {
-    //   setEmailError({ emailError: "*First character cannot be blank" });
-    //
-    // }
-    else if (!email.match(/@/)) {
+    } else if (!email.match(/@/)) {
       setEmailError('*Please include an @ in email address');
     } else if (email.startsWith(`@`)) {
       setEmailError('*Please enter any character before @, eg: abc@');
@@ -80,32 +70,20 @@ function Form({data, setData, setModalVisible}) {
     ) {
       setEmailError('*Invalid Email');
     }
-
-    // else if (email.endsWith(" ")) {
-    //   setEmailError({ emailError: "*Email address cannot end with blank space" });
-    //
-    // }
-
     if (email.length > 50) {
       setEmailError("*Email is too long,shouldn't exceed 50 characters");
     }
-  }
 
-  ////-------Validating Phone number---------------///
-  function phoneValidating() {
-    setPhoneError('');
+    ////-------Validating Phone number---------------///
     if (mobileNo === '') {
-      setPhoneError('*Cannot be blank');
+      setMobileNoError('*Cannot be blank');
     } else if (!mobileNo.match(/\d/)) {
-      setPhoneError('*It cannot be other than number');
+      setMobileNoError('*It cannot be other than number');
     } else if (mobileNo.length !== 10) {
-      setPhoneError('*Phone Number should be of 10 digits');
+      setMobileNoError('*Phone Number should be of 10 digits');
     }
-  }
 
-  function departmenntValidating() {
-    setDepartmentError('');
-    // const currentName = nameRef.current.value;
+    ////-------Validating Department---------------///
     if (department === '') {
       setDepartmentError('*Cannot be blank');
     } else if (!department.match(/^[A-Z]/)) {
@@ -168,7 +146,7 @@ function Form({data, setData, setModalVisible}) {
           value={mobileNo}
           onChangeText={setMobileNo}
         />
-        <Text style={{color: 'red'}}>{phoneError}</Text>
+        <Text style={{color: 'red'}}>{mobileNoError}</Text>
       </View>
       <TouchableOpacity
         style={styles.buttonContainer}

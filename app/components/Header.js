@@ -11,7 +11,7 @@ import {
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import Form from './Form';
 
-export default function Header({data, setData}) {
+export default function Header() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const closeModal = () => {
@@ -31,11 +31,7 @@ export default function Header({data, setData}) {
           <View style={styles.modalContainer}>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
               <View style={styles.modalContent}>
-                <Form
-                  data={data}
-                  setData={setData}
-                  setModalVisible={setModalVisible}
-                />
+                <Form setModalVisible={setModalVisible} />
               </View>
             </TouchableWithoutFeedback>
           </View>

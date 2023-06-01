@@ -57,13 +57,13 @@ function UserInfoCard() {
         <View style={styles.card}>
           <View>
             <View style={styles.detailsContainer}>
-              <View>
+              <View style={{width: '50%'}}>
                 <Text style={styles.cardText}>Name</Text>
                 <Text style={styles.cardText}>Email</Text>
                 <Text style={styles.cardText}>Mobile No.</Text>
                 <Text style={styles.cardText}>Department</Text>
               </View>
-              <View>
+              <View style={{width: '50%'}}>
                 <Text style={styles.valuesText}>{item.name}</Text>
                 <Text style={styles.valuesText}>{item.email}</Text>
                 <Text style={styles.valuesText}>{item.mobileNo}</Text>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
-    width: '90%',
+    width: 300,
   },
   detailsContainer: {
     flexDirection: 'row',
@@ -146,16 +146,16 @@ const styles = StyleSheet.create({
   editButton: {
     backgroundColor: 'rgba(8, 86, 58, 0.876)',
     padding: 10,
-    width: 100,
-    borderRadius: 25,
+    width: 90,
+    borderRadius: 19,
     marginRight: 20,
     alignItems: 'center',
   },
   deleteButton: {
     backgroundColor: 'red',
     padding: 10,
-    width: 100,
-    borderRadius: 25,
+    width: 90,
+    borderRadius: 19,
     alignItems: 'center',
   },
   buttonText: {
