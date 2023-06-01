@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Modal,
   TouchableWithoutFeedback,
+  TextInput,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeItemFromRecords} from '../redux/Actions';
@@ -17,14 +18,23 @@ import EditForm from './EditForm';
 
 function UserInfoCard() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const users = useSelector(state => state);
+  const dispatch = useDispatch();
+  const [selectedUserIndex, setSelectedUserIndex] = useState(null);
+
+  const filteredUsers = users.filter(
+    user =>
+      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const closeModal = () => {
     setModalVisible(false);
   };
-  const users = useSelector(state => state);
-  const dispatch = useDispatch();
 
-  const onEdit = () => {
+  const onEdit = index => {
+    setSelectedUserIndex(index);
     setModalVisible(true);
   };
 
@@ -72,7 +82,9 @@ function UserInfoCard() {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.editButton} onPress={onEdit}>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => onEdit(index)}>
               <Text style={styles.buttonText}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -82,19 +94,21 @@ function UserInfoCard() {
             </TouchableOpacity>
           </View>
         </View>
-        <Modal visible={modalVisible} animationType="slide" transparent={false}>
+        <Modal visible={modalVisible} transparent={false}>
           <TouchableWithoutFeedback onPress={closeModal}>
             <View style={styles.modalContainer}>
               <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
                 <View style={styles.modalContent}>
-                  <EditForm
-                    Name={item.name}
-                    Email={item.email}
-                    MobileNo={item.mobileNo}
-                    Department={item.department}
-                    setModalVisible={setModalVisible}
-                    index={index}
-                  />
+                  {selectedUserIndex !== null && (
+                    <EditForm
+                      Name={users[selectedUserIndex].name}
+                      Email={users[selectedUserIndex].email}
+                      MobileNo={users[selectedUserIndex].mobileNo}
+                      Department={users[selectedUserIndex].department}
+                      setModalVisible={setModalVisible}
+                      index={selectedUserIndex}
+                    />
+                  )}
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -105,8 +119,14 @@ function UserInfoCard() {
   };
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.searchbox}
+        placeholder="Search....."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
       <FlatList
-        data={users}
+        data={filteredUsers}
         renderItem={renderUserInfoCard}
         keyExtractor={item => item.email}
       />
@@ -115,9 +135,10 @@ function UserInfoCard() {
 }
 
 const styles = StyleSheet.create({
-  container: {alignItems: 'center', marginTop: 20},
+  container: {alignItems: 'center', marginTop: 20, marginBottom: 150},
   card: {
-    backgroundColor: 'rgb(145, 143, 143)',
+    // backgroundColor: 'rgb(145, 143, 143)',
+    backgroundColor: 'rgb(213, 217, 218)',
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
@@ -144,7 +165,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   editButton: {
-    backgroundColor: 'rgba(8, 86, 58, 0.876)',
+    backgroundColor: '#00665B',
     padding: 10,
     width: 90,
     borderRadius: 19,
@@ -174,6 +195,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     maxHeight: '100%',
+  },
+  searchbox: {
+    fontSize: 15,
+    backgroundColor: 'gray',
+    width: '90%',
+    padding: 10,
+    borderRadius: 20,
+    marginBottom: 20,
+    color: 'white',
   },
 });
 

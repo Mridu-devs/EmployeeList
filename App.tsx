@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Header from './app/components/Header';
-import Form from './app/components/Form';
+import Form from './app/components/SignUpForm';
 import UserInfoCard from './app/components/UserInfoCard';
 import Footer from './app/components/Footer';
 import {Provider} from 'react-redux/';

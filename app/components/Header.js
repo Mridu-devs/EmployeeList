@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
-import Form from './Form';
+import SignUpForm from './SignUpForm';
 
 export default function Header() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,7 +31,7 @@ export default function Header() {
           <View style={styles.modalContainer}>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
               <View style={styles.modalContent}>
-                <Form setModalVisible={setModalVisible} />
+                <SignUpForm setModalVisible={setModalVisible} />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -43,7 +43,7 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(8, 86, 58, 0.876)',
+    backgroundColor: '#00665B',
     width: '100%',
     padding: 20,
     justifyContent: 'flex-end',

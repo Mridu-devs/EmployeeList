@@ -19,7 +19,11 @@ function Homepage(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: 'rgb(193, 193, 193)', flex: 1},
+  container: {
+    // backgroundColor: 'rgb(193, 193, 193)',
+    backgroundColor: 'white',
+    flex: 1,
+  },
 });
 
 export default Homepage;

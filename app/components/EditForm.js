@@ -15,15 +15,89 @@ function EditForm({setModalVisible, Name, Email, MobileNo, Department, index}) {
   const [mobileNo, setMobileNo] = useState(MobileNo);
   const [department, setDepartment] = useState(Department);
 
+  const [nameError, setNameError] = useState('  ');
+  const [emailError, setEmailError] = useState('  ');
+  const [mobileNoError, setMobileNoError] = useState('  ');
+  const [departmentError, setDepartmentError] = useState('  ');
+
   const dispatch = useDispatch();
 
-  const onSubmit = () => {
+  const onSave = () => {
     const value = {name, email, mobileNo, department};
-    // setData([...data, value]);
-    setModalVisible(false);
-    dispatch(removeItemFromRecords(index)); // Remove the existing user
-    dispatch(addUserToRecords(value));
+    if (
+      nameError === '' &&
+      emailError === '' &&
+      departmentError === '' &&
+      mobileNoError === ''
+    ) {
+      setModalVisible(false);
+      dispatch(removeItemFromRecords(index)); // Remove the existing user
+      dispatch(addUserToRecords(value));
+    }
+    validation();
   };
+
+  function validation() {
+    setNameError('');
+    setEmailError('');
+    setMobileNoError('');
+    setDepartmentError('');
+    //--------------------Name validation--------------------///////////////
+    if (name === '') {
+      setNameError('*Cannot be blank');
+    } else if (!name.match(/^[A-Z]/)) {
+      setNameError('*First character should be a Capital Letter');
+    }
+    if (name.length > 35) {
+      setNameError("*Name is too long,shouldn't be more than 35 characters");
+    }
+    if (name.startsWith(' ')) {
+      setNameError('*First character cannot be blank');
+    } else if (name.endsWith(' ')) {
+      setNameError('*Last character cannot be blank');
+    }
+    //--------------------Email validation--------------------///////////////
+    if (email === '') {
+      setEmailError('*Email cannot be blank');
+    } else if (!email.match(/@/)) {
+      setEmailError('*Please include an @ in email address');
+    } else if (email.startsWith(`@`)) {
+      setEmailError('*Please enter any character before @, eg: abc@');
+    } else if (
+      !email.match(/([A-Za-z0-9\\_\\-\\.]+)@([a-zA-Z0-9]+)\.+([a-zA-Z]+)/)
+    ) {
+      setEmailError('*Invalid Email');
+    }
+    if (email.length > 50) {
+      setEmailError("*Email is too long,shouldn't exceed 50 characters");
+    }
+
+    ////-------Validating Phone number---------------///
+    if (mobileNo === '') {
+      setMobileNoError('*Cannot be blank');
+    } else if (!mobileNo.match(/\d/)) {
+      setMobileNoError('*It cannot be other than number');
+    } else if (mobileNo.length !== 10) {
+      setMobileNoError('*Phone Number should be of 10 digits');
+    }
+
+    ////-------Validating Department---------------///
+    if (department === '') {
+      setDepartmentError('*Cannot be blank');
+    } else if (!department.match(/^[A-Z]/)) {
+      setDepartmentError('*First character should be a Capital Letter');
+    }
+    if (department.length > 35) {
+      setDepartmentError(
+        "*department is too long,shouldn't be more than 35 characters",
+      );
+    }
+    if (department.startsWith(' ')) {
+      setDepartmentError('*First character cannot be blank');
+    } else if (department.endsWith(' ')) {
+      setDepartmentError('*Last character cannot be blank');
+    }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -35,6 +109,7 @@ function EditForm({setModalVisible, Name, Email, MobileNo, Department, index}) {
           value={name}
           onChangeText={setName}
         />
+        <Text style={{color: 'red'}}>{nameError}</Text>
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
@@ -45,6 +120,7 @@ function EditForm({setModalVisible, Name, Email, MobileNo, Department, index}) {
           value={email}
           onChangeText={setEmail}
         />
+        <Text style={{color: 'red'}}>{emailError}</Text>
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Department</Text>
@@ -55,6 +131,7 @@ function EditForm({setModalVisible, Name, Email, MobileNo, Department, index}) {
           value={department}
           onChangeText={setDepartment}
         />
+        <Text style={{color: 'red'}}>{departmentError}</Text>
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Mobile Number</Text>
@@ -66,12 +143,13 @@ function EditForm({setModalVisible, Name, Email, MobileNo, Department, index}) {
           value={mobileNo}
           onChangeText={setMobileNo}
         />
+        <Text style={{color: 'red'}}>{mobileNoError}</Text>
       </View>
       <TouchableOpacity
         style={styles.buttonContainer}
         // onPress={user => addUser(user)}>
-        onPress={onSubmit}>
-        <Text style={styles.buttonText}>Submit</Text>
+        onPress={onSave}>
+        <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
     </View>
   );
